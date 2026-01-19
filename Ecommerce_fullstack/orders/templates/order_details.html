@@ -1,0 +1,97 @@
+{% extends "utils/base.html" %}
+{% block title %}Cart{% endblock title %}
+
+{% block head %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock head %}
+
+{% block start %}
+<section>
+    <div class="container">
+        <div class="row min-vh-100">
+        
+
+            <div class="col-lg-8 pt-4">
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between align-items-baseline">
+                        <h5 class="mb-4">
+                            Order Details
+                        </h5>
+                    </div>
+
+                    {% for item in order_items %}
+                    <div class="row mb-4">
+                        <div class="col-sm-3 col-lg-2 cart-img-wrapper">
+                            <img class="img-fluid rounded w-100" src="{{item.product.product.images.first.image.url}}" alt="product_image">
+                        </div>
+
+                        <div class="col-sm-9 col-lg-10">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5>{{ item.product.product.title|truncatewords:12 }}</h5>
+                                    <p class="text-muted small mb-2">
+                                        Price: ₹{{item.price}}/per unit
+                                    </p>
+                                </div>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="m-4">
+                                        <p class="text-muted small">unit:{{item.quantity}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <strong>Total: ₹{{item.get_total_price}}</strong>
+                            
+                        </div>
+                    </div>
+                    <hr>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+             <div class="col-lg-4 ps-lg-5">
+                <div class="card shadow-sm sticky-cart">
+                    <div class="card-body">
+                        <h5 class="mb-3">Order Summary</h5>
+
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between px-0">
+                                Order ID
+                                <span>{{order.order_id}}</span>
+                            </li>
+
+                            <li class="list-group-item d-flex justify-content-between px-0">
+                                Total
+                                <span>₹{{order.total}}</span>
+                            </li>
+
+                            <li class="list-group-item d-flex justify-content-between px-0">
+                                Order Date
+                                <span>{{order.created_at}}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between px-0">
+                                {% if order.invoice_pdf %}
+                                    <a href="{{order.invoice_pdf.url}}" target="_blank" class="text-danger text-uppercase smallfs text-decoration-none mt-4 ml-5">
+                                        <i class="fa-solid fa-file-pdf"></i> Download Invoice
+                                    </a>
+                                    {% else %}
+                                    <a href="{% url "generate_invoice" %}?id={{order.id}}" class="text-secondary text-uppercase smallfs text-decoration-none mt-4 ml-5">
+                                        <i class="fa-solid fa-file-pdf"></i> Generate Invoice
+                                    </a>
+                                    {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock start %}

@@ -1,0 +1,427 @@
+{% extends "utils/base.html" %}
+{% block title %}Home{% endblock title %}
+
+{% block head %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static "css/home.css" %}">
+
+{% endblock head %}
+    
+
+{% block start %}
+
+    <div class="overlay " data-overlay></div>
+
+    <div class="modal" data-modal>
+        <div class="modal-close-overlay" data-modal-overlay></div>
+
+        <div class="modal-content">
+            <button class="modal-close-btn" data-modal-close>
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+
+            <div class="newsletter-img">
+                <img src="https://i.postimg.cc/mrLjrxtC/newsletter.png" alt="image" width="400" height="400">
+            </div>
+
+            <div class="newsletter">
+                <form action="#">
+                    <div class="newsletter-header">
+                        <h3 class="newsletter-title">Subscribe Newsletter</h3>
+
+                        <p class="newsletter-desc">Subscribe to the <b>Anon</b> to get latest products and discount update</p>
+                    </div>
+
+                    <input type="email" name="email" class="email-field" placeholder="Email Address" required>
+
+                    <button type="submit" class="btn-newsletter">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+   
+
+    <header>
+        
+        
+
+        <nav class="desktop-navigation-menu">
+            <div class="container">
+                <ul class="desktop-menu-category-list">
+                    <li class="menu-category">
+                        <a href="{% url "home" %}" class="menu-title text-decoration-none">Home</a>
+                    </li>
+
+                    <li class="menu-category">
+                        <a href="#" class="menu-title text-decoration-none">Categories</a>
+
+                        <div class="dropdown-panel">
+                            {% for dropdown_category in dropdown_categories %}
+                            <ul class="dropdown-panel-list">
+                                <li class="menu-title"><a class="text-decoration-none" href="{% url "categories" dropdown_category.id %}">{{dropdown_category.category_name}}</a></li>
+
+                                {% for child in dropdown_category.cat_child.all|slice:"5" %}
+                                <li class="panel-list-item"><a class="text-decoration-none" href="{% url "categories" child.id %}">{{child}}</a></li>
+                                {% endfor %}
+                                
+                                <li class="panel-list-item">
+                                    <img src="{{dropdown_category.get_first_product_image}}" alt="image" width="250" height="119">
+                                </li>
+                            </ul>
+                            {% endfor %}
+
+
+                        </div>
+                    </li>
+
+                    <li class="menu-category">
+                        <a href="#" class="menu-title text-decoration-none">Men's</a>
+
+                        <ul class="dropdown-list">
+                            {% for dropdown_category in dropdown_categories %}
+                            {% if dropdown_category.category_name == "Men's wear" %}
+                                {% for child in dropdown_category.cat_child.all|slice:'5' %}
+                                    <li class="dropdown-item"><a href="{% url "categories" child.id %}" class="text-decoration-none">{{ child.category_name|truncatewords:2 }}</a></li>
+                                {% endfor %}
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <li class="menu-category">
+                        <a href="#" class="menu-title text-decoration-none">Women's</a>
+
+                        <ul class="dropdown-list">
+                            {% for dropdown_category in dropdown_categories %}
+                            {% if dropdown_category.category_name == "Women's wear" %}
+                                {% for child in dropdown_category.cat_child.all|slice:'5' %}
+                                    <li class="dropdown-item"><a class="text-decoration-none" href="{% url "categories" child.id %}">{{ child.category_name|truncatewords:2 }}</a></li>
+                                {% endfor %}
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <li class="menu-category">
+                        <a href="#" class="menu-title text-decoration-none">Games</a>
+
+                        <ul class="dropdown-list">
+                            {% for game in gaming %}
+                            <li class="dropdown-item"><a class="text-decoration-none" href="{% url "categories" game.id %}">{{game.category_name|truncatewords:5}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <li class="menu-category">
+                        <a href="#" class="menu-title text-decoration-none">Mobile Accessories</a>
+
+                        <ul class="dropdown-list">
+                            {% for mobile_accessory in mobile_accessories|slice:"5" %}
+                            <li class="dropdown-item"><a class="text-decoration-none" href="{% url "categories" mobile_accessory.id %}">{{mobile_accessory.category_name|truncatewords:2}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+
+        <div class="mobile-bottom-navigation">
+            <button class="action-btn" data-mobile-menu-open-btn>
+                <ion-icon name="menu-outline"></ion-icon>
+            </button>
+
+            <button class="action-btn">
+                <ion-icon name="bag-handle-outline"></ion-icon>
+                <span class="count">0</span>
+            </button>
+
+            <button class="action-btn">
+                <ion-icon name="home-outline"></ion-icon>
+            </button>
+
+            <button class="action-btn">
+                <ion-icon name="heart-outline"></ion-icon>
+                <span class="count">0</span>
+            </button>
+
+            <button class="action-btn" data-mobile-menu-open-btn>
+                <ion-icon name="grid-outline"></ion-icon>
+            </button>
+        </div>
+
+        <nav class="mobile-navigation-menu has-scrollbar " data-mobile-menu>
+            <div class="menu-top">
+                <h2 class="menu-title">Menu</h2>
+
+                <button class="menu-close-btn" data-mobile-menu-close-btn>
+                    <ion-icon name="close-outline"></ion-icon>
+                </button>
+            </div>
+
+
+            <div class="menu-bottom">
+                <ul class="menu-category-list">
+                    <li class="menu-category">
+                        <button class="accordion-menu " data-accordion-btn>
+                            <p class="menu-title">Language</p>
+                            <ion-icon name="caret-back-outline" class="caret-back"></ion-icon>
+                        </button>
+
+                        <ul class="submenu-category-list " data-accordion>
+                            <li class="submenu-category"><a href="#" class="submenu-title">English</a></li>
+                            <li class="submenu-category"><a href="#" class="submenu-title">Espa&ntilde;ol</a></li>
+                            <li class="submenu-category"><a href="#" class="submenu-title">French</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="menu-category">
+                        <button class="accordion-menu" data-accordion-btn>
+                            <p class="menu-title">Currency</p>
+                            <ion-icon name="caret-back-outline" class="caret-back"></ion-icon>
+                        </button>
+
+                        <ul class="submenu-category-list" data-accordion>
+                            <li class="submenu-category"><a href="#" class="submenu-title">USD &dollar;</a></li>
+                            <li class="submenu-category"><a href="#" class="submenu-title">EUR &euro;</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="menu-social-container">
+                    <li><a href="#" class="social-link"><ion-icon name="logo-facebook"></ion-icon></a></li>
+                    <li><a href="#" class="social-link"><ion-icon name="logo-twitter"></ion-icon></a></li>
+                    <li><a href="#" class="social-link"><ion-icon name="logo-instagram"></ion-icon></a></li>
+                    <li><a href="#" class="social-link"><ion-icon name="logo-linkedin"></ion-icon></a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="banner">
+            <div class="container">
+                <div class="slider-container has-scrollbar">
+                    <div class="slider-item">
+                        <img src="https://i.postimg.cc/V6Rrdsk1/banner-1.jpg" alt="women's latest fashion sale" class="banner-img">
+
+                        <div class="banner-content">
+                            <p class="banner-subtitle">Trending Item</p>
+                            <h2 class="banner-title">Women's latest fashion sale</h2>
+                            <p class="banner-text">Startting at &dollar; <b>20</b>.00</p>
+                            <a href="#" class="banner-btn">Shop Now</a>
+                        </div>
+                    </div>
+
+                    <div class="slider-item">
+                        <img src="https://i.postimg.cc/RFXhvPgZ/banner-2.jpg" alt="modern sunglasses" class="banner-img">
+
+                        <div class="banner-content">
+                            <p class="banner-subtitle">Trending Accessories</p>
+                            <h2 class="banner-title">Modern Sunglasses</h2>
+                            <p class="banner-text">Startting at &dollar; <b>15</b>.00</p>
+                            <a href="#" class="banner-btn">Shop Now</a>
+                        </div>
+                    </div>
+
+                    <div class="slider-item">
+                        <img src="https://i.postimg.cc/MTKZ37z2/banner-3.jpg" alt="new fashion summer sale" class="banner-img">
+
+                        <div class="banner-content">
+                            <p class="banner-subtitle">Sale Offer</p>
+                            <h2 class="banner-title">New Fashion Summer Sale</h2>
+                            <p class="banner-text">Startting at &dollar; <b>29</b>.99</p>
+                            <a href="#" class="banner-btn">Shop Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <div class="container">
+                <div class="category-item-container has-scrollbar">
+
+                    {% for category in categories %}
+
+                    <div class="category-item">
+                        <div class="category-img-box">
+                            <img src="{{ category.get_first_product_image }}" alt="{{category.category_name}}" width="30">
+                        </div>
+                        <div class="category-content-box">
+                            <div class="category-content-flex">
+                                <h3 class="category-item-title">{{category.category_name}}</h3>
+                                <p class="category-item-amount">{{category.product_count}}</p>
+                            </div>
+                            <a href="{% url "categories" category.id %}" class="category-btn text-decoration-none">Show All</a>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="product-container">
+            <div class="container">
+                
+
+                <div class="product-box">
+                    <div class="product-minimal">
+                        <div class="product-showcase">
+                            <h2 class="title">New Arrivals</h2>
+
+                            <div class="showcase-wrapper has-scrollbar">
+                                <div class="showcase-container">
+
+
+                                    {% for new_arrival in new_arrivals %}
+
+                                    <div class="showcase">
+                                        <a href="{% url "products" new_arrival.id %}" class="showcase-img-box text-decoration-none">
+                                            <img src="{{new_arrival.product.images.first.image.url}}" alt="{{new_arrival.product.title}}" class="showcase-img" width="70">
+                                        </a>
+
+                                        <div class="showcase-content">
+                                            <a class="text-decoration-none" href="{% url "products" new_arrival.id %}"><h4 class="showcase-title">{{new_arrival.product.title}}</h4></a>
+                                            <div class="showcase-category">{{new_arrival.product.category.category_name}}</div>
+
+                                            <div class="price-box">
+                                                <p class="price">₹{{new_arrival.vendor_selling_price}} <del>{{new_arrival.product.mrp}}</del></p>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-showcase">
+                            <h2 class="title">Trending</h2>
+
+                            <div class="showcase-wrapper has-scrollbar">
+                                <div class="showcase-container">
+
+                                    {% for trend in trending %}
+                                    <div class="showcase">
+                                        <a href="{% url "products" trend.id %}" class="showcase-img-box ">
+                                            <img src="{{trend.product.images.first.image.url}}" alt="{{trend.product.title}}" class="showcase-img" width="70" height='50'>
+                                        </a>
+
+                                        <div class="showcase-content">
+                                            <a class="text-decoration-none" href="{% url "products" trend.id %}"><h4 class="showcase-title">{{trend.product.title}}</h4></a>
+                                            <div class="showcase-category">{{trend.product.category.category_name}}</div>
+
+                                            <div class="price-box">
+                                                <p class="price">₹{{trend.vendor_selling_price}} <del>{{trend.product.mrp}}</del></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="product-showcase">
+                            <h2 class="title">Top Rated</h2>
+
+                            <div class="showcase-wrapper has-scrollbar">
+                                <div class="showcase-container">
+
+                                    {% for top in top_rated %}
+                                    <div class="showcase">
+                                        <a href="{% url "products" top.id %}" class="showcase-img-box text-decoration-none">
+                                            <img src="{{top.product.images.first.image.url}}" alt="{{top.product.title}}" class="showcase-img" width="70" height='50'>
+                                        </a>
+
+                                        <div class="showcase-content">
+                                            <a class="text-decoration-none" href="{% url "products" top.id %}"><h4 class="showcase-title">{{top.product.title}}</h4></a>
+                                            <div class="showcase-category">{{top.product.category.category_name}}</div>
+
+                                            <div class="price-box">
+                                                <p class="price">₹{{top.vendor_selling_price}} <del>{{top.product.mrp}}</del></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+
+                   
+
+                    <div class="product-main">
+                        <h2 class="title">New Products</h2>
+                        <div class="product-grid">
+
+                            {% for new_product in new_products  %}
+
+                            <div class="showcase">
+                                <div class="showcase-banner">
+                                    <img src="{{new_product.product.images.first.image.url}}" alt="{{new_product.product.title}}" class="product-img default" width="300">
+                                    <img src="{{new_product.product.images.first.image.url}}" alt="{{new_product.product.title}}" class="product-img hover" width="300">
+
+                                    {% comment %} <p class="showcase-badge">15%</p> {% endcomment %}
+                                    <p class="showcase-badge angle black">Sale</p>
+
+                                    {% comment %} <div class="showcase-actions">
+                                        <button class="btn-action"><ion-icon name="heart-outline"></ion-icon></button>
+                                        <button class="btn-action"><ion-icon name="eye-outline"></ion-icon></button>
+                                        <button class="btn-action"><ion-icon name="repeat-outline"></ion-icon></button>
+                                        <button class="btn-action"><ion-icon name="bag-add-outline"></ion-icon></button>
+                                    </div> {% endcomment %}
+                                </div>
+
+                                <div class="showcase-content">
+                                    <div class="showcase-category">{{new_product.product.category.category_name}}</div>
+                                    <a  class="text-decoration-none" href="{% url "products" new_product.id %}"><h3 class="showcase-title">{{new_product.product.title}}</h3></a>
+
+                                    {% comment %} <div class="showcase-rating">
+                                        <ion-icon name="star"></ion-icon>
+                                        <ion-icon name="star"></ion-icon>
+                                        <ion-icon name="star"></ion-icon>
+                                        <ion-icon name="star-outline"></ion-icon>
+                                        <ion-icon name="star-outline"></ion-icon>
+                                    </div> {% endcomment %}
+
+                                    <div class="price-box">
+                                        <p class="price">₹{{new_product.vendor_selling_price}}</p>
+                                        <del>₹{{new_product.product.mrp}}</del>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                               
+
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+    </main>
+
+   
+
+{% endblock start %}
+
+{% block script %}
+<script src="{% static "javascript/home.js" %}" defer></script>
+
+{% endblock script %}

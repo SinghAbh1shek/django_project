@@ -1,0 +1,137 @@
+{% extends "utils/base.html" %}
+{% block title %}{{product.product.title|truncatewords:3}}{% endblock title %}
+{% block head %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/product_details.css' %}">
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+
+{% endblock head %}
+
+{% block start %}
+
+<div class="pd-wrap">
+    <div class="container">
+        <div class="heading-section">
+            <h2>Product Details</h2>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="single-product-image">
+                    <img 
+                        src="{{product.product.images.first.image.url}}"
+                        alt="Product Image"
+                        class="img-fluid"
+                    >
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="product-dtl">
+                    <div class="product-info">
+                        <div class="product-name">{{product.product.title|truncatewords:20}}</div>
+
+                        {% comment %} <div class="reviews-counter">
+                            <div class="rate">
+                                <input type="radio" id="star5" name="rate" checked />
+                                <label for="star5"></label>
+                                <input type="radio" id="star4" name="rate" checked />
+                                <label for="star4"></label>
+                                <input type="radio" id="star3" name="rate" checked />
+                                <label for="star3"></label>
+                                <input type="radio" id="star2" name="rate" />
+                                <label for="star2"></label>
+                                <input type="radio" id="star1" name="rate" />
+                                <label for="star1"></label>
+                            </div>
+                            <span>3 Reviews</span>
+                        </div> {% endcomment %}
+
+                        <div class="product-price-discount">
+                            <span>₹{{product.vendor_selling_price}}</span>
+                            <span class="line-through">₹{{product.product.mrp}}</span>
+                        </div>
+                    </div>
+
+                    <p>
+                        {{product.product.description|truncatewords:65}}
+                    </p>
+
+                    {% comment %} <div class="row">
+                        <div class="col-md-6">
+                            <label>Size</label>
+                            <select class="form-control">
+                                <option>S</option>
+                                <option>M</option>
+                                <option>L</option>
+                                <option>XL</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Color</label>
+                            <select class="form-control">
+                                <option>Blue</option>
+                                <option>Green</option>
+                                <option>Red</option>
+                            </select>
+                        </div>
+                    </div> {% endcomment %}
+
+                    <div class="product-count mt-3">
+                        {% if in_cart %}
+                            <a href="{% url "cart" %}" class="round-black-btn mt-3 text-decoration-none">Go to Cart</a>
+                        {% else %}
+                            <a href="{% url "add-to-cart" %}?product_id={{product.id}}" class="round-black-btn mt-3 text-decoration-none">Add to Cart</a>
+                        {% endif %}
+                    </div>
+                    <div class="product-count mt-3">
+                        {% if in_wishlist %}
+                            <a href="{% url "remove-to-wishlist" %}?product_id={{product.id}}" class="round-black-btn mt-3 text-decoration-none">Remove From Wishlist</a>
+                        {% else %}
+                            <a href="{% url "add-to-wishlist" %}?product_id={{product.id}}" class="round-black-btn mt-3 text-decoration-none">Wishlist</a>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="product-info-tabs mt-5">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#description">
+                        Description
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#review">
+                        Reviews (0)
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade show active p-3" id="description">
+                    {{product.product.description}}
+                </div>
+
+                <div class="tab-pane fade p-3" id="review">
+                    <p>No reviews yet.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+{% endblock start %}

@@ -1,0 +1,110 @@
+{% extends "utils/base.html" %}
+{% block title %}Cart{% endblock title %}
+
+{% block head %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock head %}
+
+{% block start %}
+<section>
+    <div class="container">
+        <div class="row min-vh-100">
+            {% if request.user.customer.cartItemsCount is 0 %}
+            
+            <div class="d-flex justify-content-center">
+                    <img class="img-fluid rounded" style="width: 400px; height: 400px;" src="https://img.freepik.com/premium-vector/modern-design-concept-no-product-found-cart-design_637684-219.jpg?semt=ais_hybrid&w=740&q=80" alt="product_image">
+            </div>
+
+            {% else %}
+
+            <div class="col-lg-8 pt-4">
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between align-items-baseline">
+                        <h5 class="mb-4">
+                            Cart (<span>{{ cart.customer.cartItemsCount }}</span> items)
+                        </h5>
+                        <a href="{% url "clear_cart" %}" class="btn btn-sm btn-danger">Empty Cart</a>
+                    </div>
+
+                    {% for item in cart.cart_items.all %}
+                    <div class="row mb-4">
+                        <div class="col-sm-3 col-lg-2 cart-img-wrapper">
+                            <img class="img-fluid rounded w-100" src="{{item.product.product.images.first.image.url}}" alt="product_image">
+                        </div>
+
+                        <div class="col-sm-9 col-lg-10">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5>{{ item.product.product.title|truncatewords:12 }}</h5>
+                                    <p class="text-muted small mb-2">
+                                        Unit Price: ₹{{item.product.vendor_selling_price}}
+                                        <span class="item-mrp">₹{{item.product.product.mrp}}</span>
+                                    </p>
+                                </div>
+
+                                <div class="d-flex align-items-center">
+                                    <a href="{% url "remove_to_cart" %}?product_id={{item.product.id}}" class="btn btn-sm btn-light px-2 minus-btn">−</a>
+                                    <span class="px-3 quantity border">{{item.quantity}}</span>
+                                    <a href="{% url "add-to-cart" %}?product_id={{item.product.id}}" class="btn btn-sm btn-light px-2 plus-btn">+</a>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <div>
+                                    <a href="{% url "remove_item_from_cart" %}?product_id={{item.product.id}}" class="text-danger text-uppercase small me-3 text-decoration-none">
+                                        <i class="fas fa-trash-alt me-1"></i> Remove from cart
+                                    </a>
+                                    <a href="{% url "moves-to-wishlist" %}?product_id={{item.product.id}}" class="text-primary text-uppercase small text-decoration-none">
+                                        <i class="fas fa-heart me-1"></i> Moves to wishlist
+                                    </a>
+                                </div>
+                                <strong>₹{{item.getTotalPrice}}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    {% endfor %}
+                </div>
+            </div>
+
+            
+            <div class="col-lg-4 ps-lg-5">
+                <div class="card shadow-sm sticky-cart">
+                    <div class="card-body">
+                        <h5 class="mb-3">Price Summary</h5>
+
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between px-0">
+                                Subtotal
+                                <span>₹{{cart.getCartTotal}}</span>
+                            </li>
+
+                            <li class="list-group-item d-flex justify-content-between px-0">
+                                Shipping
+                                <span>Free</span>
+                            </li>
+
+                            <li class="list-group-item d-flex justify-content-between px-0 fw-bold">
+                                Total
+                                <span>₹{{cart.getCartTotal}}</span>
+                            </li>
+                        </ul>
+
+                        <a href="{% url 'checkout' %}" class="btn-checkout w-100 mt-3">
+                            Go To Checkout
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock start %}

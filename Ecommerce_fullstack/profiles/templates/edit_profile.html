@@ -1,0 +1,120 @@
+{% extends "utils/base.html" %}
+
+{% block title %}
+Edit Profile{% if user.is_authenticated %} | {{ user.first_name }} {{ user.last_name }}{% endif %}
+{% endblock title %}
+
+{% block head %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/profile.css" %}">
+{% endblock head %}
+
+{% block start %}
+
+<div class="min-vh-100 d-flex align-items-center">
+<div class="container emp-profile p-4">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="row">
+            <!-- Profile Image -->
+            <div class="col-md-4">
+                <div class="profile-img">
+                    {% if user.customer.avatar %}
+                        <img src="{{ user.customer.avatar.url }}" alt="profile"/>
+                    {% else %}
+                        <img src="/media/avatars/default-avatar.jpeg" alt="profile"/>
+                    {% endif %}
+
+                    <div class="file btn btn-lg btn-primary">
+                        Change Photo
+                        <input type="file" name="avatar"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Info -->
+            <div class="col-md-6">
+                <div class="profile-head">
+                    <h5>
+                        <input type="text" name="first_name" class="form-control"
+                               value="{{ user.first_name }}" placeholder="First Name">
+                    </h5>
+
+                    <h6>
+                        <input type="text" name="last_name" class="form-control"
+                               value="{{ user.last_name }}" placeholder="Last Name">
+                    </h6>
+
+                    <p class="proile-rating">
+                        <input type="email" name="email" class="form-control"
+                               value="{{ user.email }}" placeholder="Email" {% if user.socialaccount_set.exists %}{% endif %} >
+                    </p>
+
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <span class="nav-link active">Edit Details</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Save Button -->
+        <div class="col-md-2">
+            <div class="profile-actions">
+                <a class="btn-home" href="{% url "home" %}">Home</a>
+
+                <button type="submit" class="btn-save">
+                    Save
+                </button>
+            </div>
+        </div>
+
+        </div>
+
+        <!-- Profile Fields -->
+        <div class="row mt-4">
+            <div class="col-md-4"></div>
+
+            <div class="col-md-8 profile-tab">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Username</label>
+                    </div>
+                    <div class="col-md-6">
+                        <input name="username" type="text" class="form-control"
+                               value="{{ user.username }}">
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <label>Phone</label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" name="phone" class="form-control"
+                                placeholder="Phone Number"
+                               {% if user.customer.phone %}value="{{ user.customer.phone }}"{% else %}value = ''{% endif %}
+                               >
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <label>Role</label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control"
+                               value="{{ user.user_role }}" disabled>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </form>
+</div>
+</div>
+
+{% endblock start %}

@@ -1,0 +1,39 @@
+{% extends "utils/base.html" %}
+
+{% block title %}Wishlist | {{request.user.customer.WishlistItemsCount}} Items {% endblock title %}
+{% block head %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/search.css" %}">
+{% endblock head %}
+
+{% block start %}
+
+<section class="products">
+  <h2 class="title">Wishlist {{request.user.customer.WishlistItemsCount}} Items</h2>
+
+  <div class="product-grid">
+
+    {% for item in wishlists.items.all %}
+    <div class="product-card">
+      <div class="product-image">
+        <img src="{{item.product.product.images.first.image.url}}" alt="Product">
+      </div>
+
+      <div class="product-content">
+        <p class="category">{{item.product.product.category.category_name}}</p>
+        <a class="text-decoration-none text-dark" href="{% url "products" item.product.id %}"><h3 class="product-title">{{item.product.product.title}}</h3></a>
+
+        <div class="price-box">
+          <span class="price">₹{{item.product.vendor_selling_price}}</span>
+          <del>₹{{item.product.product.mrp}}</del>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+
+  </div>
+</section>
+
+
+{% endblock start %}

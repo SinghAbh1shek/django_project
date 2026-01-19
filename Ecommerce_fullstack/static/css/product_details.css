@@ -1,0 +1,149 @@
+.pd-wrap {
+    padding: 40px 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.heading-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.heading-section h2 {
+    font-size: 32px;
+    font-weight: 500;
+    padding: 10px 0 15px;
+}
+
+.single-product-image img {
+    width: 100%;
+    height: 450px;
+    object-fit: contain;
+    border: 1px solid #eee;
+    padding: 15px;
+    background: #fff;
+}
+
+.product-name {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.product-price-discount {
+    font-size: 22px;
+    padding: 10px 0;
+    color: #FF91A4;
+}
+
+.product-price-discount .line-through {
+    text-decoration: line-through;
+    margin-left: 10px;
+    font-size: 14px;
+    color: #a5a5a5;
+}
+
+.product-dtl p {
+    font-size: 14px;
+    line-height: 24px;
+    color: #7a7a7a;
+}
+
+.reviews-counter {
+    font-size: 13px;
+}
+
+.rate {
+    float: left;
+    padding-right: 10px;
+}
+
+.rate input {
+    display: none;
+}
+
+.rate label {
+    float: right;
+    font-size: 21px;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.rate label:before {
+    content: '\2605';
+}
+
+.rate input:checked ~ label {
+    color: #ffc700;
+}
+
+
+
+.display-flex {
+    display: flex;
+}
+
+.product-count {
+    margin-top: 15px;
+}
+
+.product-count .qtyminus,
+.product-count .qtyplus {
+    width: 34px;
+    height: 34px;
+    background: #FF91A4;
+    color: #fff;
+    text-align: center;
+    line-height: 36px;
+    cursor: pointer;
+}
+
+.product-count .qty {
+    width: 60px;
+    text-align: center;
+    color: #FF91A4;
+    border-color: #FF91A4;
+    cursor: none;
+    pointer-events: none;
+
+}
+
+.round-black-btn {
+    border-radius: 4px;
+    background: #FF91A4;
+    color: #fff;
+    padding: 7px 45px;
+    margin-top: 20px;
+    display: inline-block;
+    border: 2px solid #FF91A4;
+    transition: 0.3s;
+}
+
+.round-black-btn:hover {
+    background: transparent;
+    color: #FF91A4;
+    text-decoration: none;
+}
+
+.product-info-tabs {
+    margin-top: 25px;
+}
+
+.product-info-tabs .nav-tabs {
+    border-bottom: 2px solid #d8d8d8;
+}
+
+.product-info-tabs .nav-link {
+    border: none;
+    color: #323232;
+}
+
+.product-info-tabs .nav-link.active {
+    border-bottom: 2px solid #d8d8d8;
+    font-weight: bold;
+}
+
+.product-info-tabs .tab-pane {
+    padding: 30px 20px;
+    font-size: 15px;
+    color: #7a7a7a;
+}

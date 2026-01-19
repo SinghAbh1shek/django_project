@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>
+        {% block title %}{% endblock title %}
+    </title>
+
+
+    <meta name="viewport" content="width=1200, initial-scale=1">
+
+    <link href="https://demo.dashboardpack.com/architectui-html-free/main.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="app-container app-theme-white fixed-sidebar fixed-header">
+
+    {% include "utils_seller/navbar.html" %}
+
+    <div class="app-main">
+
+
+            <div class="app-main__inner">
+                
+                {% block start %}
+                
+                
+                
+                {% endblock start %}
+                
+            </div>
+
+    </div>
+
+<script src="https://demo.dashboardpack.com/architectui-html-free/assets/scripts/main.js"></script>
+</body>
+</html>

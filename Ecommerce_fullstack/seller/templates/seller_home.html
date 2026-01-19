@@ -1,0 +1,146 @@
+{% extends "utils_seller/base.html" %}
+{% block title %}Dashboard{% endblock title %}
+
+{% block start %}
+
+{% if request.user.shopkeeper.verification_status == 'pending' %}
+
+    <div class="container">
+    <div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+        <div class="col-md-5">
+
+            <div class="card text-center shadow-sm">
+                <div class="card-body py-5">
+
+                    <span class="badge bg-warning text-dark mb-3">
+                        Pending
+                    </span>
+
+                    <h5 class="mt-3">Verification in Progress</h5>
+
+                    <p class="text-muted mt-2">
+                        Your account is currently under review.  
+                        Please wait for admin approval.
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+
+
+
+{% elif request.user.shopkeeper.verification_status == 'rejected' %}
+
+    <div class="container">
+        <div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+            <div class="col-md-5">
+
+                <div class="card text-center shadow-sm border-danger">
+                    <div class="card-body py-5">
+
+                        <span class="badge bg-danger mb-3">
+                            Rajected
+                        </span>
+
+                        <h5 class="mt-3">Verification Failed</h5>
+
+                        <p class="text-muted mt-2">
+                            Your account verification was rejected.
+                        </p>
+
+                        
+                        {% if request.user.shopkeeper.comments %}
+                        <div class="alert alert-danger d-flex align-items-center m-3">
+                            <strong>message:</strong>
+                            <span class="ms-2">{{request.user.shopkeeper.comments}}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% else %}
+        
+        
+
+
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="mb-0">Overview</h4>
+
+        <a href="{% url "list_product" %}" class="btn btn-primary">
+            View Your Products
+        </a>
+    </div>
+
+
+    <div class="row">
+            <div class="col-md-3">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6>Total Orders</h6>
+                        <h3>{{total_orders}}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6>Total Products</h6>
+                        <h3>{{total_product}}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6>Active Products</h6>
+                        <h3>{{active_product}}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6>Revenue</h6>
+                        <h3>₹{{total_revenue}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Recent Orders</div>
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>Order Id</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                    </tr>
+                    {% for recent_order in recent_orders %}
+                    <tr>
+                        <td>{{recent_order.order}}</td>
+                        <td>{{recent_order.product}}</td>
+                        <td>{{recent_order.quantity}}</td>
+                        <td>{{recent_order.price}}/Per unit</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+{% endif %}
+{% endblock start %}
