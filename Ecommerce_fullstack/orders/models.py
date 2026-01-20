@@ -69,6 +69,13 @@ class WishlistItems(BaseModel):
 
 
 class Order(BaseModel):
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('processing', 'Processing'),
+        ('completed', 'Completed'),
+        ('failed', 'Failed'),
+    )
+
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='customer_order')
     order_id = models.CharField(max_length=100, null=True, blank=True)
@@ -76,6 +83,7 @@ class Order(BaseModel):
     payment_signature = models.CharField(max_length=1000, null=True, blank=True)
     total = models.DecimalField(max_digits=10, decimal_places=2)
     invoice_pdf = models.FileField(upload_to='pdfs/', null=True, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
 
     def save(self, *args, **kwargs):
         if self.pk is None:

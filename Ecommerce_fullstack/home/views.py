@@ -6,11 +6,8 @@ from django.contrib.postgres.search import SearchVector, SearchRank, SearchQuery
 #  NOTE: to user TrigamSimilarity we must run "CREATE EXTENSION pg_trgm;" query in our pgadmin
 from django.db.models import Q
 from orders.models import Cart, Wishlist
-from utils.utility.tasks import test_task
 
 def index(request):
-    test_task1 = test_task.delay('Hey!', 'Wassup?')
-    print(test_task1)
 
     categories = Category.objects.annotate(
         product_count=Count('cat_child__products', distinct=True)).filter(product_count__gt = 0).order_by("-id")[:10]
