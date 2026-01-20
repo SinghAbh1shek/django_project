@@ -77,9 +77,27 @@
                                         <i class="fa-solid fa-file-pdf"></i> Download Invoice
                                     </a>
                                     {% else %}
-                                    <a href="{% url "generate_invoice" %}?id={{order.id}}" class="text-secondary text-uppercase smallfs text-decoration-none mt-4 ml-5">
-                                        <i class="fa-solid fa-file-pdf"></i> Generate Invoice
-                                    </a>
+                                        {% if order.status == 'pending' %}
+                                            <a href="{% url "generate_invoice" %}?id={{order.id}}" class="text-secondary text-uppercase smallfs text-decoration-none mt-4 ml-5">
+                                                <i class="fa-solid fa-file-pdf"></i> Generate Invoice
+                                            </a>
+                                        {% elif order.status == 'processing' %}
+                                            <p class="text-primary smallfs text-decoration-none mt-4 ml-5">
+                                                <i class="fa-solid fa-file-pdf"></i> Processing..
+                                            </p>
+                                        {% elif order.status == 'completed' %}
+                                            <p class="text-success smallfs text-decoration-none mt-4 ml-5">
+                                                <i class="fa-solid fa-file-pdf"></i> Generated
+                                            </p>
+                                        {% elif order.status == 'failed' %}
+                                            <p class="text-danger smallfs text-decoration-none mt-4 ml-5">
+                                                <i class="fa-solid fa-file-pdf"></i> Failed
+                                            </p>
+                                        {% else %}
+                                            <p class="text-danger text-uppercase smallfs text-decoration-none mt-4 ml-5">
+                                                <i class="fa-solid fa-file-pdf"></i> Something Wrong
+                                            </p>
+                                        {% endif %}
                                     {% endif %}
                             </li>
                         </ul>
