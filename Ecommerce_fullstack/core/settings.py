@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'products',
     'orders',
     'seller',
+    'django_celery_results',
 
 
     'django.contrib.sites',
@@ -156,7 +157,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -185,3 +186,14 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 SOCIALACCOUNT_LOGIN_ON_GET = True 
+
+
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+CELERY_RESULT_BACKEND = 'django-db'
+"""
+While using CELERY_RESULT_BACKEND as django-db 
+We need to install pakeges named django-celery-results
+And add django_celery_results in installed app
+"""
+CELERY_TIMEZONE = 'Asia/Kolkata'
+CELERY_RESULT_EXTENDED = True
