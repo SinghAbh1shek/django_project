@@ -3,7 +3,8 @@ from accounts.models import Customer
 from products.models import VendorProduct
 from django.db.models import Sum, F
 from utils.utility.models import BaseModel
-from utils.utility.utility import generate_order_id, generate_order_pdf
+from utils.utility.utility import generate_order_id
+from utils.utility.tasks import generate_order_pdf
 
 
 class Cart(models.Model):
@@ -41,7 +42,7 @@ class Cart(models.Model):
                     quantity = cart_item.quantity,
                     price = cart_item.product.vendor_selling_price
                 )
-            generate_order_pdf(order, order.get_order_data())
+            generate_order_pdf.delay(order.id, order.get_order_data())
 
 class CartItems(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='cart_items')
