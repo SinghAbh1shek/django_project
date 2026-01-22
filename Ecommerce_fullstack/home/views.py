@@ -6,7 +6,10 @@ from django.contrib.postgres.search import SearchVector, SearchRank, SearchQuery
 #  NOTE: to user TrigamSimilarity we must run "CREATE EXTENSION pg_trgm;" query in our pgadmin
 from django.db.models import Q
 from orders.models import Cart, Wishlist
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
+@cache_page(60 * 3)
 def index(request):
 
     categories = Category.objects.annotate(
@@ -89,7 +92,13 @@ def search(request):
     return render(request, 'search.html', context={'products':products})
 
 def product_details(request, id):
-    product = VendorProduct.objects.get(id=id)
+    product = None
+    if cache.get('product'):
+        product = cache.get('product')
+    else:
+        cache.set('product', VendorProduct.objects.get(id=id), 60*3)
+    
+    # product = VendorProduct.objects.get(id=id)
 
     cart = None
     in_cart = False
