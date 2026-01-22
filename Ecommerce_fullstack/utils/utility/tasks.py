@@ -11,7 +11,6 @@ def generate_order_pdf(self, id, data):
         instance = Order.objects.get(id = id)
         instance.status = 'processing'
         instance.save(update_fields = ['status'])
-        sleep(20)
 
 
         template_name = 'pdfs/invoice'
@@ -47,7 +46,7 @@ def generate_order_pdf(self, id, data):
         instance.status = 'completed'
         instance.save(update_fields = ['status'])
 
-        
+
     except Exception as e:
         instance.status = 'failed'
         instance.save(update_fields = ['status'])
