@@ -91,12 +91,13 @@ def search(request):
     # print(search)
     return render(request, 'search.html', context={'products':products})
 
-def product_details(request, id):
-    product = None
-    if cache.get('product'):
-        product = cache.get('product')
-    else:
-        cache.set('product', VendorProduct.objects.get(id=id), 60*3)
+def product_details(request, id): 
+    cache_key = f"product_{id}"
+
+    product = cache.get(cache_key)
+    if not product:
+        product = VendorProduct.objects.get(id=id)
+        cache.set(cache_key, product, 60 * 3)
     
     # product = VendorProduct.objects.get(id=id)
 
