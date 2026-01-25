@@ -9,37 +9,70 @@ from orders.models import Cart, Wishlist
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 from products.documents import VendorProductDocument
-from elasticsearch.dsl import Q
+from utils.utility.cache import get_or_set_cache
 
-@cache_page(60 * 3)
 def index(request):
+    cache_expired_time = 60 * 3
+    HOME = "home"
 
-    categories = Category.objects.annotate(
-        product_count=Count('cat_child__products', distinct=True)).filter(product_count__gt = 0).order_by("-id")[:10]
-    
-    
-
-    new_arrivals = ( VendorProduct.objects.filter(product__images__isnull=False)
-    .order_by('-created_at').distinct()[:5]
+    categories = get_or_set_cache(
+        f"{HOME}_categories",
+        Category.objects.annotate(
+            product_count=Count('cat_child__products', distinct=True)
+        ).filter(product_count__gt=0).order_by("-id")[:10],
+        cache_expired_time
     )
 
-    trending = (VendorProduct.objects.filter(product__images__isnull=False)
-    .order_by('-product__trending_score').distinct()[:5]
+    new_arrivals = get_or_set_cache(
+        f"{HOME}_new_arrivals",
+        VendorProduct.objects.filter(
+            product__images__isnull=False
+        ).order_by('-created_at').distinct()[:5],
+        cache_expired_time
     )
 
-    top_rated = (VendorProduct.objects.filter(product__images__isnull=False)
-    .order_by('-product__product_rating').distinct()[:5]
+    trending = get_or_set_cache(
+        f"{HOME}_trending",
+        VendorProduct.objects.filter(
+            product__images__isnull=False
+        ).order_by('-product__trending_score').distinct()[:5],
+        cache_expired_time
     )
 
-    new_products = (VendorProduct.objects.filter(product__images__isnull = False)
-                   .order_by('-created_at').distinct()[:12])
-    
-    dropdown_categories = (Category.objects.filter(parent__isnull = True).distinct())
+    top_rated = get_or_set_cache(
+        f"{HOME}_top_rated",
+        VendorProduct.objects.filter(
+            product__images__isnull=False
+        ).order_by('-product__product_rating').distinct()[:5],
+        cache_expired_time
+    )
 
-    gaming = Category.objects.filter(parent__category_name__iexact="Gaming")   
+    new_products = get_or_set_cache(
+        f"{HOME}_new_products",
+        VendorProduct.objects.filter(
+            product__images__isnull=False
+        ).order_by('-created_at').distinct()[:12],
+        cache_expired_time
+    )
 
-    mobile_accessories = Category.objects.filter(parent__category_name__iexact="Mobile Accessories")   
-    mobile_accessories = Category.objects.filter(parent__category_name__iexact="Mobile Accessories")   
+    dropdown_categories = get_or_set_cache(
+        f"{HOME}_dropdown_categories",
+        Category.objects.filter(parent__isnull=True),
+        cache_expired_time
+    )
+
+    gaming = get_or_set_cache(
+        f"{HOME}_gaming",
+        Category.objects.filter(parent__category_name__iexact="Gaming"),
+        cache_expired_time
+    )
+
+    mobile_accessories = get_or_set_cache(
+        f"{HOME}_mobile_accessories",
+        Category.objects.filter(parent__category_name__iexact="Mobile Accessories"),
+        cache_expired_time
+    )
+
 
     
 
@@ -64,7 +97,6 @@ def search(request):
 
     if search:
         result = VendorProductDocument.search().query(
-            Q(
             'multi_match',
             query= search, fields= [
                 'product.title',
@@ -72,8 +104,6 @@ def search(request):
                 'product.category'
             ], 
             fuzziness= 'AUTO')
-            
-        )
         result = result.execute()
         products = [
             {
