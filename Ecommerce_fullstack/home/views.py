@@ -9,6 +9,7 @@ from orders.models import Cart, Wishlist
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 from products.documents import VendorProductDocument
+from elasticsearch.dsl import Q
 
 @cache_page(60 * 3)
 def index(request):
@@ -63,11 +64,17 @@ def search(request):
 
     if search:
         result = VendorProductDocument.search().query(
-            'match', product__title = search
+            Q(
+            'multi_match',
+            query= search, fields= [
+                'product.title',
+                'product.description'
+                'product.category'
+            ], 
+            fuzziness= 'AUTO')
+            
         )
         result = result.execute()
-        for hit in result:
-            print(hit.meta.id)
         products = [
             {
                 'id': hit.meta.id,
@@ -82,7 +89,6 @@ def search(request):
     else:
         products = None
 
-    # print(search)
     return render(request, 'search.html', context={'products':products})
 
 def product_details(request, id): 
@@ -93,7 +99,6 @@ def product_details(request, id):
         product = VendorProduct.objects.get(id=id)
         cache.set(cache_key, product, 60 * 3)
     
-    # product = VendorProduct.objects.get(id=id)
 
     cart = None
     in_cart = False
