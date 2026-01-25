@@ -75,9 +75,11 @@ def success(request):
         return render(request, 'success.html')
     except Exception as e:
         print('Something Wrong')
-        print(e)
-        return redirect('home')
+        return redirect('failed')
 
+@login_required(login_url='login')
+def payment_failed(request):
+    return render(request, 'payment_failed.html')
 
 @login_required(login_url='login')
 def add_to_cart(request):
