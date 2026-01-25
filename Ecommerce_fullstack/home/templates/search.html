@@ -16,16 +16,16 @@
     {% for product in products %}
     <div class="product-card">
       <div class="product-image">
-        <img src="{{product.product.images.first.image.url}}" alt="Product">
+        <img src="{{product.image}}" alt="Product">
       </div>
 
       <div class="product-content">
-        <p class="category">{{product.product.category.category_name}}</p>
-        <a class="text-decoration-none text-dark" href="{% url "products" product.id %}"><h3 class="product-title">{{product.product.title}}</h3></a>
+        <p class="category">{{product.category}}</p>
+        <a class="text-decoration-none text-dark" href="{% url "products" product.id %}"><h3 class="product-title">{{product.title}}</h3></a>
 
         <div class="price-box">
           <span class="price">₹{{product.vendor_selling_price}}</span>
-          <del>₹{{product.product.mrp}}</del>
+          <del>₹{{product.mrp}}</del>
         </div>
       </div>
     </div>

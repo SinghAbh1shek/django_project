@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     "debug_toolbar", # For debug toolbar
+    'django_elasticsearch_dsl', # Elastic search -> uv add django-elasticsearch-dsl
 ]
 
 load_dotenv()
@@ -213,3 +214,10 @@ And add django_celery_results in installed app
 """
 CELERY_TIMEZONE = 'Asia/Kolkata'
 CELERY_RESULT_EXTENDED = True
+
+
+ELASTICSEARCH_DSL={
+    'default': {
+        'hosts': 'http://localhost:9200',
+    }
+}

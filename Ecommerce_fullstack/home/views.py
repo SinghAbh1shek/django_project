@@ -8,6 +8,7 @@ from django.db.models import Q
 from orders.models import Cart, Wishlist
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
+from products.documents import VendorProductDocument
 
 @cache_page(60 * 3)
 def index(request):
@@ -56,35 +57,28 @@ def index(request):
 
 
 def search(request):
-    # products = VendorProduct.objects.all()[:20]
     search = request.GET.get('q')
 
 
 
     if search:
-        query = SearchQuery(search)
-
-        vector = (
-            SearchVector('product__title', weight = 'A') +
-            SearchVector('product__category__category_name', weight = 'B') +
-            SearchVector('product__description', weight = 'C')
+        result = VendorProductDocument.search().query(
+            'match', product__title = search
         )
-        # vector = SearchVector('product__title', 'product__category__category_name', 'product__description')
-
-        rank = SearchRank(vector, query)
-
-        similarity = (
-            TrigramSimilarity('product__title', search) +
-            TrigramSimilarity('product__category__category_name', search) +
-            TrigramSimilarity('product__description', search)
-        )
-
-        products = (
-        VendorProduct.objects
-            .filter(is_active=True)
-            .only("id", "product__title")
-            .annotate(rank=rank, similarity=similarity)
-        ).filter(Q(rank__gte =0.3) | Q(similarity__gte = 0.3)).distinct().order_by('-rank', '-similarity')[:30]
+        result = result.execute()
+        for hit in result:
+            print(hit.meta.id)
+        products = [
+            {
+                'id': hit.meta.id,
+                'title': hit.product.title,
+                'description': hit.product.description,
+                'category': hit.product.category,
+                'vendor_selling_price': hit.vendor_selling_price,
+                'image': hit.product.image_url,
+                'mrp': hit.product.mrp,
+            } for hit in result
+        ]
     else:
         products = None
 

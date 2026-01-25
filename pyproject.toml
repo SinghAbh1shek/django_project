@@ -10,6 +10,7 @@ dependencies = [
     "django-allauth>=65.14.0",
     "django-celery-results>=2.6.0",
     "django-debug-toolbar>=6.2.0",
+    "django-elasticsearch-dsl==8.0",
     "dotenv>=0.9.9",
     "jwt>=1.4.0",
     "pdfkit>=1.0.0",

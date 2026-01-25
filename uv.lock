@@ -315,6 +315,19 @@ wheels = [
 ]
 
 [[package]]
+name = "django-elasticsearch-dsl"
+version = "8.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "elasticsearch-dsl" },
+    { name = "six" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/e6/b5/3b03f3edaaab56d333e1ded33f047a0c1c48a96ff4bd284ef15254e1216a/django-elasticsearch-dsl-8.0.tar.gz", hash = "sha256:64ee0612ced6d57515a6b7f29f1a3e1c2eea1996a6226fc72079a95c067b27ca", size = 31447, upload-time = "2023-10-01T19:19:55.129Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/30/7c/5a2d818a5c9cd9719fa00e65c424f4653b0c9a46f8c78e0d540efb839683/django_elasticsearch_dsl-8.0-py2.py3-none-any.whl", hash = "sha256:423784a4af336d109c3763622f1edc4973664cb5154beb55b3ff9390c1e4525e", size = 20877, upload-time = "2023-10-01T19:19:53.097Z" },
+]
+
+[[package]]
 name = "dotenv"
 version = "0.9.9"
 source = { registry = "https://pypi.org/simple" }
@@ -323,6 +336,48 @@ dependencies = [
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b2/b7/545d2c10c1fc15e48653c91efde329a790f2eecfbbf2bd16003b5db2bab0/dotenv-0.9.9-py2.py3-none-any.whl", hash = "sha256:29cf74a087b31dafdb5a446b6d7e11cbce8ed2741540e2339c69fbef92c94ce9", size = 1892, upload-time = "2025-02-19T22:15:01.647Z" },
+]
+
+[[package]]
+name = "elastic-transport"
+version = "8.17.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "certifi" },
+    { name = "urllib3" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/6a/54/d498a766ac8fa475f931da85a154666cc81a70f8eb4a780bc8e4e934e9ac/elastic_transport-8.17.1.tar.gz", hash = "sha256:5edef32ac864dca8e2f0a613ef63491ee8d6b8cfb52881fa7313ba9290cac6d2", size = 73425, upload-time = "2025-03-13T07:28:30.776Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cf/cd/b71d5bc74cde7fc6fd9b2ff9389890f45d9762cbbbf81dc5e51fd7588c4a/elastic_transport-8.17.1-py3-none-any.whl", hash = "sha256:192718f498f1d10c5e9aa8b9cf32aed405e469a7f0e9d6a8923431dbb2c59fb8", size = 64969, upload-time = "2025-03-13T07:28:29.031Z" },
+]
+
+[[package]]
+name = "elasticsearch"
+version = "8.19.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "elastic-transport" },
+    { name = "python-dateutil" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/6b/79/365e306017a9fcfbbefab1a3b588d2404bea8806b36766ff0f886509a20e/elasticsearch-8.19.3.tar.gz", hash = "sha256:e84dd618a220cac25b962790085045dd27ac72e01c0a5d81bd29a2d47a71f03f", size = 800298, upload-time = "2025-12-23T12:56:00.72Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/56/0f/ac126833c385b06166d41c486e4911f58ad7791fd1a53dd6e0b8d16ff214/elasticsearch-8.19.3-py3-none-any.whl", hash = "sha256:fe1db2555811192e8a1be78b01234d0a49d32b185ea7eeeb6f059331dee32838", size = 952820, upload-time = "2025-12-23T12:55:56.796Z" },
+]
+
+[[package]]
+name = "elasticsearch-dsl"
+version = "8.18.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "elastic-transport" },
+    { name = "elasticsearch" },
+    { name = "python-dateutil" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/72/6d/00cbeee412a2dc825f0df18c98463a2e0b423b86800fba6c50ea2c627962/elasticsearch_dsl-8.18.0.tar.gz", hash = "sha256:763465dba9eae166add10567e924c65730aa122819b08bfe9a077e91b13b30d1", size = 31886, upload-time = "2025-04-16T11:54:14.412Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/77/a9/b200790a22585aeb023d88bd8b9fb222820e2976ce4239d401670116ae3c/elasticsearch_dsl-8.18.0-py3-none-any.whl", hash = "sha256:0522c5bb20c7abae69855109e650bf1166d486cbf706b5e1b29c28936a9102a3", size = 10406, upload-time = "2025-04-16T11:54:12.677Z" },
 ]
 
 [[package]]
@@ -447,6 +502,7 @@ dependencies = [
     { name = "django-allauth" },
     { name = "django-celery-results" },
     { name = "django-debug-toolbar" },
+    { name = "django-elasticsearch-dsl" },
     { name = "dotenv" },
     { name = "jwt" },
     { name = "pdfkit" },
@@ -465,6 +521,7 @@ requires-dist = [
     { name = "django-allauth", specifier = ">=65.14.0" },
     { name = "django-celery-results", specifier = ">=2.6.0" },
     { name = "django-debug-toolbar", specifier = ">=6.2.0" },
+    { name = "django-elasticsearch-dsl", specifier = "==8.0" },
     { name = "dotenv", specifier = ">=0.9.9" },
     { name = "jwt", specifier = ">=1.4.0" },
     { name = "pdfkit", specifier = ">=1.0.0" },
@@ -591,6 +648,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/90/76/437d71068094df0726366574cf3432a4ed754217b436eb7429415cf2d480/sqlparse-0.5.5.tar.gz", hash = "sha256:e20d4a9b0b8585fdf63b10d30066c7c94c5d7a7ec47c889a2d83a3caa93ff28e", size = 120815, upload-time = "2025-12-19T07:17:45.073Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/49/4b/359f28a903c13438ef59ebeee215fb25da53066db67b305c125f1c6d2a25/sqlparse-0.5.5-py3-none-any.whl", hash = "sha256:12a08b3bf3eec877c519589833aed092e2444e68240a3577e8e26148acc7b1ba", size = 46138, upload-time = "2025-12-19T07:17:46.573Z" },
+]
+
+[[package]]
+name = "typing-extensions"
+version = "4.15.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/72/94/1a15dd82efb362ac84269196e94cf00f187f7ed21c242792a923cdb1c61f/typing_extensions-4.15.0.tar.gz", hash = "sha256:0cea48d173cc12fa28ecabc3b837ea3cf6f38c6d1136f85cbaaf598984861466", size = 109391, upload-time = "2025-08-25T13:49:26.313Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/18/67/36e9267722cc04a6b9f15c7f3441c2363321a3ea07da7ae0c0707beb2a9c/typing_extensions-4.15.0-py3-none-any.whl", hash = "sha256:f0fa19c6845758ab08074a0cfa8b7aecb71c999ca73d62883bc25cc018c4e548", size = 44614, upload-time = "2025-08-25T13:49:24.86Z" },
 ]
 
 [[package]]
