@@ -1,0 +1,9 @@
+<header class="h-14 flex items-center px-6 border-b border-zinc-700">
+  <h1 class="text-lg font-semibold">🤖 AI Assistant</h1>
+
+  {% if user.is_authenticated %}
+    <span class="ml-3 text-xs text-green-400">● Saved Mode</span>
+  {% else %}
+    <span class="ml-3 text-xs text-yellow-400">● Guest Mode</span>
+  {% endif %}
+</header>

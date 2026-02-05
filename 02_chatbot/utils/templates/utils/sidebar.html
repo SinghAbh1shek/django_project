@@ -1,0 +1,52 @@
+<aside class="w-72 bg-zinc-800 border-r border-zinc-700 flex flex-col">
+
+  <div class="p-4 space-y-3">
+
+    {% if user.is_authenticated %}
+      <div class="text-sm text-zinc-300">
+        Logged in as <b>{{ user.username }}</b>
+      </div>
+
+      <a href="{% url "home" %}" class="w-full bg-indigo-600 py-2 rounded-xl hover:bg-indigo-500 block text-center">
+        + New Chat
+      </a>
+
+    {% else %}
+      <div class="text-xs text-yellow-400">
+        ⚠ Guest mode (chat not saved)
+      </div>
+
+      <a href=""
+         class="block text-center w-full bg-indigo-600 py-2 rounded-xl hover:bg-indigo-500">
+        Login to save chats
+      </a>
+    {% endif %}
+
+  </div>
+
+  <div id="chatList" class="flex-1 overflow-y-auto px-3 space-y-2">
+
+    {% if user.is_authenticated %}
+      {% for chat in user.chats.all %}
+          <a href="{% url "home" %}?chat_id={{chat.id}}" class="p-3 bg-zinc-700 rounded cursor-pointer block">
+            {{chat.title}}
+          </a>
+      {% endfor %}
+    {% else %}
+      <div class="p-3 bg-zinc-700 rounded cursor-pointer">
+        Guest Chat
+      </div>
+    {% endif %}
+
+  </div>
+
+  {% if user.is_authenticated %}
+  <div class="p-4 border-t border-zinc-700">
+    <a href=""
+       class="text-sm text-red-400 hover:text-red-300">
+      Logout
+    </a>
+  </div>
+  {% endif %}
+
+</aside>
