@@ -22,7 +22,7 @@ def index(request):
                 content=query
             )
 
-            ai_response = llm(chat, query)
+            ai_response = llm(query, chat)
 
             return JsonResponse({
                 "assistant": ai_response,
