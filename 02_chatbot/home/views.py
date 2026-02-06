@@ -22,13 +22,7 @@ def index(request):
                 content=query
             )
 
-            ai_response = llm(query)
-
-            ChatMessage.objects.create(
-                chat = chat,
-                role="assistant",
-                content=ai_response
-            )
+            ai_response = llm(chat, query)
 
             return JsonResponse({
                 "assistant": ai_response,
