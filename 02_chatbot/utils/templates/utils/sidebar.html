@@ -66,7 +66,7 @@
 
   {% if user.is_authenticated %}
   <div class="p-4 border-t border-zinc-700">
-    <a href=""
+    <a href="{% url "logout" %}"
        class="text-sm text-red-400 hover:text-red-300">
       Logout
     </a>

@@ -3,6 +3,7 @@ from .llm import llm
 from .models import ChatMessage, Chat
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 def index(request):
     if request.user.is_authenticated:
@@ -61,9 +62,13 @@ def index(request):
 def delete_chat(request, chat_id):
     user = request.user
     try:
-        chat = Chat.objects.get(id = chat_id, user = user)
-        chat.delete()
+        chat = Chat.objects.filter(id = chat_id, user = user).delete()
         return redirect('home')
     except Exception as e:
         print('something goes wrong')
         return redirect('home')
+
+@login_required
+def logout_page(request):
+    logout(request)
+    return redirect('home')
