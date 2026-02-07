@@ -1,3 +1,4 @@
+{% load socialaccount %}
 <aside class="w-72 bg-zinc-800 border-r border-zinc-700 flex flex-col">
 
   <div class="p-4 space-y-3">
@@ -16,7 +17,7 @@
         ⚠ Guest mode (chat not saved)
       </div>
 
-      <a href=""
+      <a href="{% provider_login_url 'google' %}?next=/"
          class="block text-center w-full bg-indigo-600 py-2 rounded-xl hover:bg-indigo-500">
         Login to save chats
       </a>

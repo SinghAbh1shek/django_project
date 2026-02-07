@@ -58,7 +58,7 @@ def index(request):
 
         return render(request, "home.html")
 
-@login_required
+@login_required(login_url='home')
 def delete_chat(request, chat_id):
     user = request.user
     try:
@@ -68,7 +68,7 @@ def delete_chat(request, chat_id):
         print('something goes wrong')
         return redirect('home')
 
-@login_required
+@login_required(login_url='home')
 def logout_page(request):
     logout(request)
     return redirect('home')
