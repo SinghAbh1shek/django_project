@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>{% block title %}Community{% endblock %}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        community_bg: "#313338",
+                        community_card: "#2b2d31",
+                        community_input: "#1e1f22",
+                        community_primary: "#5865f2",
+                        community_primary_hover: "#4752c4",
+                        community_text: "#f2f3f5",
+                        community_muted: "#b5bac1",
+                        community_link: "#00a8fc",
+                        community_danger: "#da373c",
+                        community_success: "#5cb85c"
+                    }
+                }
+            }
+        }
+    </script>
+
+    {% block head %}{% endblock %}
+
+</head>
+
+<body class="bg-community_bg text-community_text min-h-screen">
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>

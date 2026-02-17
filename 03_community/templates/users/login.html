@@ -1,0 +1,68 @@
+{% extends "utils/user_base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<div class="min-h-screen flex items-center justify-center">
+
+    <div class="bg-community_card w-[420px] p-8 rounded-lg shadow-xl">
+
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-bold">Welcome back!</h1>
+            <p class="text-community_muted text-sm">
+                We're so excited to see you again!
+            </p>
+        </div>
+
+        {% if error %}
+        <div class="bg-community_danger/20 border border-community_danger text-sm p-2 rounded mb-4">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="mb-4">
+                <label class="text-xs font-bold text-community_muted block mb-2">
+                    USERNAME
+                </label>
+
+                <input type="text"
+                       name="username"
+                       required
+                       class="w-full bg-community_input px-3 py-2 rounded outline-none focus:ring-2 focus:ring-community_primary">
+            </div>
+
+            <div class="mb-4">
+                <label class="text-xs font-bold text-community_muted block mb-2">
+                    PASSWORD
+                </label>
+
+                <input type="password"
+                       name="password"
+                       required
+                       class="w-full bg-community_input px-3 py-2 rounded outline-none focus:ring-2 focus:ring-community_primary">
+            </div>
+
+            <button type="submit"
+                    class="w-full bg-community_primary hover:bg-community_primary_hover py-2 rounded font-semibold transition">
+                Log In
+            </button>
+
+        </form>
+
+        <div class="mt-4 text-sm text-community_muted">
+            Need an account?
+            <a href="{% url "register" %}" class="text-community_link hover:underline">
+                Register
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

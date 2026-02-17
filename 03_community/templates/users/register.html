@@ -1,0 +1,178 @@
+{% extends "utils/user_base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<div class="min-h-screen flex items-center justify-center">
+
+    <div class="bg-community_card w-[440px] p-8 rounded-lg shadow-xl">
+
+        {% for message in messages%}
+        {% if message.tags == 'error' %}
+        <div class="bg-community_danger/20 border border-community_danger text-sm text-center p-2 rounded mb-4">
+            {{message}}
+        </div>
+
+        {% elif message.tags == 'success' %}
+        <div class="bg-community_success/20 border border-community_success text-sm text-center p-2 rounded mb-4">
+            {{message}}
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-bold">Create an account</h1>
+            <p class="text-community_muted text-sm">
+                Join the community
+            </p>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <div class="flex flex-col items-center mb-6">
+
+                <label for="pfpInput" class="cursor-pointer">
+
+                    <div id="pfpContainer"
+                         class="w-24 h-24 p-2 rounded-full bg-community_input flex items-center justify-center border-2 border-community_primary hover:bg-[#2f3136] transition overflow-hidden">
+
+                        <span id="pfpText"
+                              class="text-xs text-community_muted text-center px-2">
+                            Add Image
+                        </span>
+
+                        <img id="pfpPreview"
+                             class="hidden w-full h-full object-cover">
+
+                    </div>
+
+                </label>
+
+                <input id="pfpInput"
+                       type="file"
+                       name="pfp"
+                       accept="image/*"
+                       class="hidden">
+
+            </div>
+
+
+            <div class="flex gap-3 mb-4">
+
+                <div class="w-1/2">
+                    <label class="text-xs font-bold text-community_muted block mb-2">
+                        FIRST NAME <span class="text-red-500">*</span>
+                    </label>
+
+                    <input type="text"
+                           name="first_name"
+                           {% comment %} required {% endcomment %}
+                           class="w-full bg-community_input px-3 py-2 rounded outline-none focus:ring-2 focus:ring-community_primary">
+                </div>
+
+                <div class="w-1/2">
+                    <label class="text-xs font-bold text-community_muted block mb-2">
+                        LAST NAME <span class="text-red-500">*</span>
+                    </label>
+
+                    <input type="text"
+                           name="last_name"
+                           {% comment %} required {% endcomment %}
+                           class="w-full bg-community_input px-3 py-2 rounded outline-none focus:ring-2 focus:ring-community_primary">
+                </div>
+
+            </div>
+
+
+            <div class="mb-4">
+                <label class="text-xs font-bold text-community_muted block mb-2">
+                    USERNAME <span class="text-red-500">*</span>
+                </label>
+
+                <input type="text"
+                       name="username"
+                       {% comment %} required {% endcomment %}
+                       class="w-full bg-community_input px-3 py-2 rounded outline-none focus:ring-2 focus:ring-community_primary">
+            </div>
+
+
+            <div class="mb-4">
+                <label class="text-xs font-bold text-community_muted block mb-2">
+                    EMAIL <span class="text-red-500">*</span>
+                </label>
+
+                <input type="email"
+                       name="email"
+                       {% comment %} required {% endcomment %}
+                       class="w-full bg-community_input px-3 py-2 rounded outline-none focus:ring-2 focus:ring-community_primary">
+            </div>
+
+
+            <div class="mb-4">
+                <label class="text-xs font-bold text-community_muted block mb-2">
+                    PASSWORD <span class="text-red-500">*</span>
+                </label>
+
+                <input type="password"
+                       name="password"
+                       {% comment %} required {% endcomment %}
+                       class="w-full bg-community_input px-3 py-2 rounded outline-none focus:ring-2 focus:ring-community_primary">
+            </div>
+
+
+            <button type="submit"
+                    class="w-full bg-community_primary hover:bg-community_primary_hover py-2 rounded font-semibold transition">
+
+                Continue
+
+            </button>
+
+        </form>
+
+        <div class="mt-4 text-sm text-community_muted">
+            Already  have an account?
+            <a href="{% url "login" %}" class="text-community_link hover:underline">
+                Login
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const input = document.getElementById("pfpInput");
+const preview = document.getElementById("pfpPreview");
+const text = document.getElementById("pfpText");
+
+input.addEventListener("change", function() {
+
+    const file = this.files[0];
+
+    if (file) {
+
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+
+            preview.src = e.target.result;
+
+            preview.classList.remove("hidden");
+            text.classList.add("hidden");
+
+        }
+
+        reader.readAsDataURL(file);
+    }
+
+});
+
+</script>
+
+
+{% endblock %}

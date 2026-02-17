@@ -1,0 +1,39 @@
+{% extends "utils/base.html" %}
+
+{% block title %}
+Feed
+{% endblock %}
+
+{% block header %}
+# feed
+{% endblock %}
+
+{% block content %}
+
+<div class="space-y-4">
+
+    {% for post in posts %}
+
+    <div class="flex gap-3">
+
+        <div class="w-10 h-10 bg-indigo-500 rounded-full"></div>
+
+        <div>
+
+            <div class="font-semibold">
+                {{ post.user.username }}
+            </div>
+
+            <div class="text-gray-300">
+                {{ post.content }}
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
