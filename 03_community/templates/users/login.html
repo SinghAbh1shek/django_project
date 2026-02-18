@@ -7,6 +7,13 @@
 <div class="min-h-screen flex items-center justify-center">
 
     <div class="bg-community_card w-[420px] p-8 rounded-lg shadow-xl">
+         {% for message in messages%}
+        {% if message.tags == 'error' %}
+        <div class="bg-community_danger/20 border border-community_danger text-sm text-center p-2 rounded mb-4">
+            {{message}}
+        </div>
+        {% endif %}
+        {% endfor %}
 
         <div class="text-center mb-6">
             <h1 class="text-2xl font-bold">Welcome back!</h1>
