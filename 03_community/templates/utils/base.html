@@ -10,6 +10,40 @@
 
 <body class="bg-[#313338] text-white">
 
+
+    {% if messages %}
+
+    {% for message in messages %}
+
+    {% if message.tags == 'success' %}
+    
+    <div id="msg-{{ forloop.counter }}"
+         class="
+            w-full flex items-center justify-between
+            px-4 py-2
+            border text-sm
+            bg-green-400/20 border-green-400 text-green-400
+         ">
+        <span class="flex-1 text-center">
+            {{ message }}
+        </span>
+        <button
+            onclick="document.getElementById('msg-{{ forloop.counter }}').remove()"
+            class="ml-4 text-lg font-bold opacity-70 hover:opacity-100 hover:scale-110 transition">
+
+            &times;
+
+        </button>
+
+    </div>
+    {% endif %}
+
+    {% endfor %}
+
+
+    {% endif %}
+
+
 {% include "utils/navbar.html" %}
 
 

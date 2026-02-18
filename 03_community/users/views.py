@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.contrib.auth import get_user_model, authenticate, login
+from django.contrib.auth import get_user_model, authenticate, login, logout
 
 User = get_user_model()
 
@@ -40,18 +40,21 @@ def register_page(request):
             email=email,
             password=password
         )
-        
         if profile:
             user.profile = profile
             user.save()
 
         user_obj = authenticate(request, username = username, password = password)
         if user_obj:
-            messages.success(request, "account created")
             login(request, user_obj)
+            messages.success(request, "account created")
             return redirect('feed')
         
         messages.error(request, "something goes wrong")
         return redirect('register')
 
     return render(request, 'users/register.html')
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')

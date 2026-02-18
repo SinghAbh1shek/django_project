@@ -1,5 +1,4 @@
 <div class="h-12 bg-[#232428] flex items-center justify-between px-4 border-b border-black/30">
-
     <div class="flex items-center gap-3">
 
         <div class="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center font-bold">
@@ -26,18 +25,29 @@
     <div class="flex items-center gap-4">
 
 
-        <div class="flex items-center gap-2 cursor-pointer hover:bg-[#35373c] px-2 py-1 rounded">
+        <a href="{% url "profile" %}" class="flex items-center gap-2 cursor-pointer hover:bg-[#35373c] px-2 py-1 rounded">
+            <div class="w-7 h-7 rounded-full overflow-hidden">
 
-            <div class="w-7 h-7 bg-green-500 rounded-full"></div>
-
-            <div class="text-sm">
-                Username
+                <img 
+                    src="{{ request.user.profile.url }}" 
+                    alt="profile"
+                    class="w-full h-full object-cover"
+                >
             </div>
 
-        </div>
+            <div class="text-sm">
+                {% if request.user.first_name %}
+                    {{ request.user.first_name }}
+                {% else %}
+                    {{ request.user.username }}
+                {% endif %}
+            </div>
+
+        </a>
 
 
-        <a href="/logout/" class="text-sm hover:text-red-400">
+
+        <a href="{% url "logout" %}" class="text-sm hover:text-red-400">
             Logout
         </a>
 
