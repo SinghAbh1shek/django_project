@@ -29,7 +29,12 @@
             <div class="w-7 h-7 rounded-full overflow-hidden">
 
                 <img 
-                    src="{{ request.user.profile.url }}" 
+                    src="{% if request.user.profile %}
+                    {{ request.user.profile.url }}
+                    {% else %}
+                    https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg
+                    {% endif %}
+                    " 
                     alt="profile"
                     class="w-full h-full object-cover"
                 >

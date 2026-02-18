@@ -10,6 +10,21 @@ def profile(requests):
     return render(requests, 'users/profile.html')
 
 def login_page(request):
+    if request.user.is_authenticated:
+        return redirect('feed')
+    
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user_obj = authenticate(request, username=username, password=password)
+
+        if user_obj:
+            login(request, user_obj)
+            return redirect('feed')
+
+        messages.error(request, 'Error: Invalid Credentials')
+        return redirect('login')
     return render(request, 'users/login.html')
 
 def register_page(request):
@@ -47,7 +62,7 @@ def register_page(request):
         user_obj = authenticate(request, username = username, password = password)
         if user_obj:
             login(request, user_obj)
-            messages.success(request, "account created")
+            messages.success(request, "Your Account Successfully Created")
             return redirect('feed')
         
         messages.error(request, "something goes wrong")
