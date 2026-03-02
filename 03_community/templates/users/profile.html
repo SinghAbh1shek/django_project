@@ -50,7 +50,7 @@ Profile
 
 
             {% if request.user != profile_user %}
-            <a href="#"
+            <a href="{% url 'chat' profile_user.username %}"
                class="bg-indigo-600 hover:bg-indigo-700 px-5 py-2 rounded-lg transition">
                 Message
             </a>

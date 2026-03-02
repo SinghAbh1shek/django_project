@@ -1,0 +1,44 @@
+{% extends "utils/base.html" %}
+
+{% block title %}Chats{% endblock %}
+
+{% block header %}Your Chats{% endblock %}
+
+{% block content %}
+
+<div class="w-full space-y-2">
+
+    {% for item in chat_users %}
+
+    <a href="{% url 'chat' item.user.username %}"
+       class="flex items-center justify-between gap-4 p-4 bg-[#2b2d31] rounded-xl hover:bg-[#383a40] transition">
+
+        <div class="flex items-center gap-3">
+            <img 
+                src="{% if item.user.profile %}{{ item.user.profile.url }}{% else %}https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg{% endif %}"
+                alt="profile"
+                class="w-12 h-12 rounded-full object-cover"
+            >
+
+            <div class="font-semibold">
+                {{ item.user.username }}
+            </div>
+        </div>
+
+        {% if item.unread > 0 %}
+        <span class="bg-red-600 text-white text-xs px-2 py-1 rounded-full">
+            {{ item.unread }}
+        </span>
+        {% endif %}
+
+    </a>
+
+    {% empty %}
+    <div class="text-gray-400 text-center p-6">
+        No conversations yet 👀
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}
