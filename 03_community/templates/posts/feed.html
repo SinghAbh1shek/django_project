@@ -10,26 +10,56 @@ Feed
 
 {% block content %}
 
-<div class="space-y-4">
+<div class="space-y-6">
 
     {% for post in posts %}
 
-    <div class="flex gap-3">
+    <div class="bg-[#2b2d31] p-5 rounded-2xl shadow-md">
 
-        <div class="w-10 h-10 bg-indigo-500 rounded-full"></div>
+        <div class="flex items-center gap-3 mb-3">
 
-        <div>
+            <img 
+                src="{% if post.user.profile %}{{ post.user.profile.url }}{% else %}https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg{% endif %}"
+                alt="profile"
+                class="w-10 h-10 rounded-full object-cover"
+            >
 
-            <div class="font-semibold">
-                {{ post.user.username }}
-            </div>
-
-            <div class="text-gray-300">
-                {{ post.content }}
+            <div>
+                <div class="font-semibold">
+                    {% if post.user.username == request.user.username %}
+                    You
+                    {% else %}
+                    {{ post.user.username }}
+                    {% endif %}
+                </div>
+                <div class="text-xs text-gray-400">
+                    {{ post.created_at|date:"M d, Y H:i" }}
+                </div>
             </div>
 
         </div>
 
+        <h2 class="text-lg font-semibold mb-2">
+            {{ post.title }}
+        </h2>
+
+
+        <p class="text-gray-300 mb-3">
+            {{ post.description }}
+        </p>
+
+
+        {% if post.image %}
+            <img src="{{ post.image.url }}"
+                 class="w-full max-h-96 object-cover rounded-xl">
+        {% endif %}
+
+    </div>
+
+    {% empty %}
+
+    <div class="text-gray-400 text-center mt-10">
+        No posts yet. Be the first one 👀
     </div>
 
     {% endfor %}
