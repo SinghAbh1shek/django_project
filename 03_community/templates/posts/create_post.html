@@ -1,0 +1,90 @@
+{% extends "utils/base.html" %}
+
+{% block title %}Create Post{% endblock %}
+
+{% block header %}
+Create Post
+{% endblock %}
+
+{% block content %}
+
+<div class="flex justify-center items-center h-full">
+
+    <div class="w-full max-w-2xl bg-[#2b2d31] p-6 rounded-2xl shadow-lg">
+
+        <h2 class="text-xl font-semibold mb-6">
+            Create a New Post
+        </h2>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+
+            <div class="mb-4">
+                <label class="block mb-2 text-sm text-gray-300">
+                    Title
+                </label>
+                <input 
+                    type="text"
+                    name="title"
+                    placeholder="Enter post title..."
+                    class="w-full bg-[#1e1f22] text-white p-3 rounded-xl 
+                           border border-gray-700 focus:outline-none 
+                           focus:ring-2 focus:ring-indigo-500"
+                    required
+                >
+            </div>
+
+            <div class="mb-4">
+                <label class="block mb-2 text-sm text-gray-300">
+                    Description
+                </label>
+                <textarea 
+                    name="description"
+                    rows="4"
+                    placeholder="Write something detailed..."
+                    class="w-full bg-[#1e1f22] text-white p-4 rounded-xl 
+                           border border-gray-700 focus:outline-none 
+                           focus:ring-2 focus:ring-indigo-500 resize-none"
+                    required
+                ></textarea>
+            </div>
+
+            <div class="mb-6">
+                <label class="block mb-2 text-sm text-gray-300">
+                    Image (Optional)
+                </label>
+                <input 
+                    type="file"
+                    name="image"
+                    accept="image/*"
+                    class="w-full text-sm text-gray-400
+                           file:mr-4 file:py-2 file:px-4
+                           file:rounded-lg file:border-0
+                           file:text-sm file:font-semibold
+                           file:bg-indigo-600 file:text-white
+                           hover:file:bg-indigo-700"
+                >
+            </div>
+
+            <div class="flex justify-end gap-3">
+
+                <a href="{% url 'feed' %}"
+                   class="px-4 py-2 rounded-lg bg-gray-600 hover:bg-gray-700 transition">
+                   Cancel
+                </a>
+
+                <button type="submit"
+                        class="px-6 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 transition font-semibold">
+                    Post
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -37,3 +37,24 @@ Feed
 </div>
 
 {% endblock %}
+
+{% block floating_button %}
+
+<a href="{% url "create_post" %}" 
+   class="fixed bottom-6 right-72 group flex items-center z-50">
+
+    <span class="mr-3 bg-gray-800 text-white text-sm px-3 py-1 rounded-lg 
+                 opacity-0 group-hover:opacity-100 transition duration-300">
+        Add Post
+    </span>
+
+    <div class="w-14 h-14 bg-indigo-600 hover:bg-indigo-700 
+                text-white text-3xl flex items-center justify-center 
+                rounded-full shadow-lg transition duration-300
+                hover:scale-110">
+        +
+    </div>
+
+</a>
+
+{% endblock %}
