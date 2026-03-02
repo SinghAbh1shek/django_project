@@ -1,15 +1,40 @@
-<div class="w-60 bg-[#2b2d31] p-3">
+<div class="w-60 bg-[#2b2d31] p-3 overflow-y-auto">
 
     <div class="text-xs text-gray-400 mb-2">
-        MEMBERS
+        MEMBERS — {{ members.count }}
     </div>
 
-    <div class="space-y-2">
+    <div class="space-y-1">
 
-        <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-green-500 rounded-full"></div>
-            Username
-        </div>
+        {% for user in members %}
+
+        <a href="{% url 'profile' %}?user={{ user.username }}" 
+           class="flex items-center justify-between p-2 rounded-lg 
+                  hover:bg-[#383a40] transition">
+
+            <div class="flex items-center gap-2">
+
+                <img 
+                    src="{% if user.profile %}{{ user.profile.url }}{% else %}https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg{% endif %}"
+                    alt="profile"
+                    class="w-8 h-8 rounded-full object-cover"
+                >
+
+                <span class="text-sm">
+                    {{ user.username }}
+                </span>
+
+            </div>
+
+            {% if user.is_superuser %}
+                <span class="text-xs bg-red-600 px-2 py-0.5 rounded-full">
+                    ADMIN
+                </span>
+            {% endif %}
+
+        </a>
+
+        {% endfor %}
 
     </div>
 

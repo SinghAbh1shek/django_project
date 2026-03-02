@@ -2,12 +2,25 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import get_user_model, authenticate, login, logout
+from django.shortcuts import get_object_or_404
 
 User = get_user_model()
 
 @login_required(login_url='login')
-def profile(requests):
-    return render(requests, 'users/profile.html')
+def profile(request):
+    username = request.GET.get("user")
+
+    if username:
+        profile_user = get_object_or_404(User, username=username)
+    else:
+        profile_user = request.user
+
+    posts = profile_user.posts.all()
+
+    return render(request, "users/profile.html", {
+        "profile_user": profile_user,
+        "posts": posts
+    })
 
 def login_page(request):
     if request.user.is_authenticated:

@@ -1,8 +1,6 @@
 {% extends "utils/base.html" %}
 
-{% block title %}
-Profile
-{% endblock %}
+{% block title %}Profile{% endblock %}
 
 {% block header %}
 Profile
@@ -10,30 +8,81 @@ Profile
 
 {% block content %}
 
-<div class="flex flex-col items-center">
+<div class="w-full max-w-4xl mx-auto space-y-6">
 
-<div class="w-24 h-24 bg-indigo-500 rounded-full overflow-hidden mb-3">
+    <div class="bg-[#2b2d31] p-6 rounded-2xl shadow-md">
 
-    <img 
-        src="{% if request.user.profile %}
-        {{ request.user.profile.url }}
-        {% else %}
-        https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg
-        {% endif %}
-        " 
-        alt="profile"
-        class="w-full h-full object-cover"
-    >
+        <div class="flex items-center gap-6">
+            <img 
+                src="{% if profile_user.profile %}{{ profile_user.profile.url }}{% else %}https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg{% endif %}"
+                alt="profile"
+                class="w-24 h-24 rounded-full object-cover"
+            >
 
-</div>
+            <div class="flex-1">
 
-<div class="text-xl font-semibold">
-{{request.user.username}}
-</div>
+                <h2 class="text-2xl font-semibold">
+                    {{ profile_user.username }}
+                </h2>
 
-<div class="text-gray-400">
-{{request.user.email}}
-</div>
+                <p class="text-gray-400 text-sm">
+                    {{ profile_user.email }}
+                </p>
+
+                {% if profile_user.bio %}
+                    <p class="mt-3 text-gray-300">
+                        {{ profile_user.bio }}
+                    </p>
+                {% else %}
+                    <p class="mt-3 text-gray-500 italic">
+                        No bio added.
+                    </p>
+                {% endif %}
+
+
+                {% if profile_user.is_superuser %}
+                    <span class="inline-block mt-3 text-xs bg-red-600 px-3 py-1 rounded-full">
+                        ADMIN
+                    </span>
+                {% endif %}
+
+            </div>
+
+
+            {% if request.user != profile_user %}
+            <a href="#"
+               class="bg-indigo-600 hover:bg-indigo-700 px-5 py-2 rounded-lg transition">
+                Message
+            </a>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <div class="space-y-4">
+
+        <h3 class="text-lg font-semibold">Posts</h3>
+
+        {% for post in posts %}
+            <div class="bg-[#2b2d31] p-4 rounded-xl">
+                <h4 class="font-semibold">{{ post.title }}</h4>
+                <p class="text-gray-300 text-sm mt-1">
+                    {{ post.description }}
+                </p>
+
+                {% if post.image %}
+                    <img src="{{ post.image.url }}"
+                         class="mt-3 rounded-lg">
+                {% endif %}
+            </div>
+        {% empty %}
+            <p class="text-gray-400">
+                No posts yet.
+            </p>
+        {% endfor %}
+
+    </div>
 
 </div>
 
