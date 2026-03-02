@@ -23,8 +23,11 @@
 
         <div class="bg-[#232428] p-3 flex items-center gap-2">
 
-            <div class="w-8 h-8 bg-green-500 rounded-full"></div>
-
+            <img 
+                src="{% if request.user.profile%}{{ request.user.profile.url }}{% else %}https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg{% endif %}"
+                alt="profile"
+                class="w-8 h-8 rounded-full object-cover"
+            >
             <div>
                 <div class="text-sm font-semibold">
                     {{request.user.username}}
