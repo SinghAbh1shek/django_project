@@ -12,14 +12,27 @@ Profile
 
 <div class="flex flex-col items-center">
 
-<div class="w-24 h-24 bg-indigo-500 rounded-full mb-3"></div>
+<div class="w-24 h-24 bg-indigo-500 rounded-full overflow-hidden mb-3">
+
+    <img 
+        src="{% if request.user.profile %}
+        {{ request.user.profile.url }}
+        {% else %}
+        https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg
+        {% endif %}
+        " 
+        alt="profile"
+        class="w-full h-full object-cover"
+    >
+
+</div>
 
 <div class="text-xl font-semibold">
-Username
+{{request.user.username}}
 </div>
 
 <div class="text-gray-400">
-email@email.com
+{{request.user.email}}
 </div>
 
 </div>
